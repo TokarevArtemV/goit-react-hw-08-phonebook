@@ -1,0 +1,59 @@
+.button_back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+  background-color: rgb(156, 154, 154);
+  color: rgb(36, 35, 35);
+  height: 32px;
+  width: 120px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 1550ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.contact_info_container {
+  display: flex;
+}
+.contact_info_container img {
+  object-fit: cover;
+  height: 240px;
+  width: 180px;
+}
+.contact_info_textblock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-left: 24px;
+}
+.contact_info_textblock p {
+  display: inline-block;
+  min-width: 250px;
+  margin: 0;
+  font-weight: 700;
+}
+.contact_info_textblock div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+  padding: 8px 16px;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+.contact_info_textblock span {
+  min-height: 20px;
+  overflow-y: auto;
+}
+.contact_info_textblock div:last-child {
+  min-height: 170px;
+  max-height: 170px;
+  overflow-y: auto;
+}
+
+.button_back:hover {
+  background-color: rgb(36, 35, 35);
+  color: rgb(156, 154, 154);
+}
