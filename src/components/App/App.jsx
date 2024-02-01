@@ -7,23 +7,16 @@ import { Layout, PrivatRoute } from 'components';
 
 import 'react-notifications/lib/notifications.css';
 import { Home } from 'pages';
-import {
-  authRefreshUser,
-  selectAuthError,
-  selectAuthIsRefreshing,
-} from '../../redux';
+import { authRefreshUser, selectAuthIsRefreshing } from '../../redux';
 import { RestrictedRoute } from 'components';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const authError = useSelector(selectAuthError);
   const isRefreshing = useSelector(selectAuthIsRefreshing);
 
   useEffect(() => {
     dispatch(authRefreshUser());
   }, [dispatch]);
-
-  console.log(authError);
 
   return (
     !isRefreshing && (
