@@ -1,4 +1,4 @@
-import { statusState } from './constants';
+import { statusState } from '../constants';
 
 export const handlePending = state => {
   state.contactById = null;

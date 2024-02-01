@@ -1,25 +1,53 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { NotificationContainer } from 'react-notifications';
+import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ContactDetails, Contacts } from 'pages';
+import { Contacts, LogIn, Register } from 'pages';
+import { Layout, PrivatRoute } from 'components';
 
 import 'react-notifications/lib/notifications.css';
-import css from 'components/App/App.module.css';
+import { Home } from 'pages';
+import {
+  authRefreshUser,
+  selectAuthError,
+  selectAuthIsRefreshing,
+} from '../../redux';
+import { RestrictedRoute } from 'components';
 
 export const App = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const authError = useSelector(selectAuthError);
+  const isRefreshing = useSelector(selectAuthIsRefreshing);
+
+  useEffect(() => {
+    dispatch(authRefreshUser());
+  }, [dispatch]);
+
+  console.log(authError);
 
   return (
-    <div className={css.appWraper}>
-      <h1>Phonebook</h1>
+    !isRefreshing && (
       <Routes>
-        <Route index element={<Contacts />} />
-        <Route
-          path="/:contactId"
-          element={<ContactDetails location={location} />}
-        />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute component={Register} redirectTo="/contacts" />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute component={LogIn} redirectTo="/contacts" />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={<PrivatRoute component={Contacts} redirectTo="/" />}
+          />
+        </Route>
       </Routes>
-      <NotificationContainer />
-    </div>
+    )
   );
 };

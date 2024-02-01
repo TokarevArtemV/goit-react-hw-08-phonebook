@@ -6,7 +6,7 @@ import {
   selectContacts,
   selectError,
   selectStatus,
-} from '../redux';
+} from '../../redux';
 
 import {
   ContactForm,

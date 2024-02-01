@@ -1,32 +1,29 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://65aecb4d1dfbae409a758f43.mockapi.io';
+const contactsInstance = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com',
+});
+
+export const setTokenContactsInstance = token =>
+  (contactsInstance.defaults.headers.common.Authorization = `Bearer ${token}`);
+
+export const clearTokenContactsInstance = () =>
+  (contactsInstance.defaults.headers.common.Authorization = '');
 
 export const getContacts = async () => {
-  const contacts = await axios.get('/API/contacts');
+  const contacts = await contactsInstance.get('/contacts');
 
   return contacts;
 };
 
-export const getContactById = async contactId => {
-  const contacts = await axios.get(`/API/contacts/${contactId}`);
-
-  return contacts;
-};
-
-export const postContact = async ({ name, phone, avatar, ...arg }) => {
-  const contact = await axios.post('/API/contacts', {
-    name,
-    phone,
-    avatar: !avatar ? 'https://i.ibb.co/2ShmK52/nobody.png' : avatar,
-    ...arg,
-  });
+export const postContact = async dataContacts => {
+  const contact = await contactsInstance.post('/contacts', dataContacts);
 
   return contact;
 };
 
 export const delContact = async contactId => {
-  const contact = await axios.delete(`/API/contacts/${contactId}`);
+  const contact = await contactsInstance.delete(`/contacts/${contactId}`);
 
   return contact;
 };

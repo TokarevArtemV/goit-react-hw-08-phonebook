@@ -1,23 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { statusState } from './constants';
-import {
-  apiDeleteContact,
-  apiGetContactById,
-  apiGetContacts,
-  apiPostContact,
-} from './operations';
+import { statusState } from '../constants';
+import { apiDeleteContact, apiGetContacts, apiPostContact } from './operations';
 import {
   handleFulfilledAdd,
   handleFulfilledDelete,
   handleFulfilledGet,
-  handleFulfilledGetById,
   handlePending,
   handleRejected,
 } from './handleFunctionReduser';
 
 const initialContacts = {
   contacts: [],
-  contactById: null,
   status: statusState.idle, // "idle" | "pending" | "success" | "error"
   error: null,
   location: null,
@@ -38,11 +31,6 @@ const contactsSlice = createSlice({
       .addCase(apiGetContacts.pending, handlePending)
       .addCase(apiGetContacts.fulfilled, handleFulfilledGet)
       .addCase(apiGetContacts.rejected, handleRejected)
-
-      // ============= GET Contact bu ID ===============
-      .addCase(apiGetContactById.pending, handlePending)
-      .addCase(apiGetContactById.fulfilled, handleFulfilledGetById)
-      .addCase(apiGetContactById.rejected, handleRejected)
 
       // ============= ADD Contact ===============
       .addCase(apiPostContact.pending, handlePending)
