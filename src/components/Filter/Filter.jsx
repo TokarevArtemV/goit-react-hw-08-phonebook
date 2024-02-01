@@ -7,15 +7,17 @@ export const Filter = () => {
   const filter = useSelector(selectFilter);
 
   return (
-    <label className={css.label}>
-      <span className={css.text}>Filter</span>
-      <input
-        className={css.input}
-        type="text"
-        name="filter"
-        value={filter}
-        onChange={evt => dispatch(setFilter(evt.target.value))}
-      />
-    </label>
+    <div>
+      <label className={css.label}>
+        <span className={css.text}>Filter</span>
+        <input
+          className={css.input}
+          type="text"
+          name="filter"
+          value={filter}
+          onChange={evt => dispatch(setFilter(evt.target.value))}
+        />
+      </label>
+    </div>
   );
 };

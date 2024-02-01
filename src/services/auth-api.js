@@ -32,12 +32,12 @@ export const apiRefreshUser = async token => {
   setToken(token);
   setTokenContactsInstance(token);
   const data = await authInstance.get('/users/current');
-
   return data;
 };
 
 export const apiLogOutUser = async () => {
-  await authInstance.post('/users/logout');
+  const data = await authInstance.post('/users/logout');
   clearToken();
   clearTokenContactsInstance();
+  return data;
 };

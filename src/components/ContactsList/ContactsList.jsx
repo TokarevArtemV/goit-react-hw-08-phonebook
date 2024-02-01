@@ -3,6 +3,7 @@ import { apiDeleteContact, selectFilteredContacts } from '../../redux';
 import { ContactItem } from 'components';
 
 import css from 'components/ContactsList/ContactsList.module.css';
+import { NotificationManager } from 'react-notifications';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,15 @@ export const ContactsList = () => {
           <ContactItem
             key={contact.id}
             contact={contact}
-            onClickDelBtn={() => dispatch(apiDeleteContact(contact.id))}
+            onClickDelBtn={() =>
+              dispatch(apiDeleteContact(contact.id))
+                .unwrap()
+                .then(data =>
+                  NotificationManager.success(
+                    `${data.name} was successfully deleted`
+                  )
+                )
+            }
           />
         ))}
       </ul>

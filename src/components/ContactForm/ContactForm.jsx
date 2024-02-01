@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NotificationManager } from 'react-notifications';
 import { apiGetContacts, apiPostContact, selectContacts } from '../../redux';
 import css from 'components/ContactForm/ContactForm.module.css';
+import { Button } from 'components';
 
 function isExists(name, contacts) {
   return contacts.some(
@@ -28,7 +29,11 @@ export const ContactForm = () => {
       return;
     }
 
-    dispatch(apiPostContact(objUserData));
+    dispatch(apiPostContact(objUserData))
+      .unwrap()
+      .then(data =>
+        NotificationManager.success(`${data.name} was successfully added`)
+      );
 
     evt.target.reset();
   };
@@ -58,9 +63,10 @@ export const ContactForm = () => {
         />
       </label>
 
-      <button className={css.button} type="submit">
+      <Button type="submit">Add contact</Button>
+      {/* <button className={css.button} type="submit">
         Add contact
-      </button>
+      </button> */}
     </form>
   );
 };

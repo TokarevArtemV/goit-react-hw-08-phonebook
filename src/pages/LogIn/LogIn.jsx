@@ -1,9 +1,9 @@
 import { LuUserSquare } from 'react-icons/lu';
-import { RiLockPasswordLine } from 'react-icons/ri';
-import css from 'pages/Register/Register.module.css';
-import { Button } from 'components';
 import { useDispatch } from 'react-redux';
+import { RiLockPasswordLine } from 'react-icons/ri';
 import { authLoginUser } from '../../redux';
+import { Button } from 'components';
+import css from 'pages/LogIn/Login.module.css';
 
 // Artem23, tok23@gmail.com, 12345678
 

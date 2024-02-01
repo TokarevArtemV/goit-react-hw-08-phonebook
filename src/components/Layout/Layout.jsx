@@ -22,41 +22,45 @@ export const Layout = () => {
 
   return (
     <div className={css.container}>
-      <h1>Phonebook</h1>
-      <nav className={css.nav_wraper}>
-        <NavLink to={'/'} className={css.nav_link}>
-          Home
-        </NavLink>
-        {isLoggedIn ? (
-          <>
-            <NavLink
-              to={'/contacts'}
-              className={`${css.nav_link} ${css.nav_link_contacts}`}
-            >
-              Contacts
-            </NavLink>
-            <p className={css.nav_text}>{`Hello, ${name}!`} </p>
-            <Button onClick={handleLogOut} type={'button'}>
-              Log out
-            </Button>
-          </>
-        ) : (
-          <>
-            <NavLink
-              to={'/register'}
-              className={`${css.nav_link} ${css.nav_link_register}`}
-            >
-              Register
-            </NavLink>
-            <NavLink to={'/login'} className={css.nav_link}>
-              Log in
-            </NavLink>
-          </>
-        )}
-      </nav>
+      <header>
+        <h1>Phonebook</h1>
+        <nav className={css.nav_wraper}>
+          <NavLink to={'/'} className={css.nav_link}>
+            Home
+          </NavLink>
+          {isLoggedIn ? (
+            <>
+              <NavLink
+                to={'/contacts'}
+                className={`${css.nav_link} ${css.nav_link_contacts}`}
+              >
+                Contacts
+              </NavLink>
+              <p className={css.nav_text}>{`Hello, ${name}!`} </p>
+              <Button onClick={handleLogOut} type={'button'}>
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to={'/register'}
+                className={`${css.nav_link} ${css.nav_link_register}`}
+              >
+                Register
+              </NavLink>
+              <NavLink to={'/login'} className={css.nav_link}>
+                Log in
+              </NavLink>
+            </>
+          )}
+        </nav>
+      </header>
 
       <Suspense fallback={<Loader />}>
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
       </Suspense>
       <NotificationContainer />
     </div>

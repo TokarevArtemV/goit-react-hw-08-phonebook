@@ -1,10 +1,11 @@
 import { LuUserSquare } from 'react-icons/lu';
-import { HiOutlineMail } from 'react-icons/hi';
-import { RiLockPasswordLine } from 'react-icons/ri';
-import css from 'pages/Register/Register.module.css';
-import { Button } from 'components';
 import { useDispatch } from 'react-redux';
 import { authRegisterUser } from '../../redux';
+import { HiOutlineMail } from 'react-icons/hi';
+import { RiLockPasswordLine } from 'react-icons/ri';
+import { Button } from 'components';
+import css from 'pages/Register/Register.module.css';
+import { NotificationManager } from 'react-notifications';
 
 export const Register = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,11 @@ export const Register = () => {
   const handleSubmit = evt => {
     evt.preventDefault();
     const userData = Object.fromEntries(new FormData(evt.target));
-    dispatch(authRegisterUser(userData));
+    dispatch(authRegisterUser(userData))
+      .unwrap()
+      .catch(() =>
+        NotificationManager.error(`Something went wrong, please try again`)
+      );
   };
 
   return (
