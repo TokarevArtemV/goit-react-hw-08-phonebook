@@ -45,9 +45,10 @@ export const authRefreshUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const { token } = thunkApi.getState().auth;
-      console.log(token);
       if (!token) return thunkApi.rejectWithValue('No valid token');
       const { data } = await apiRefreshUser(token);
+
+      console.log(data);
       return data;
     } catch (error) {
       console.log(error.message);
@@ -90,13 +91,13 @@ const authSlice = createSlice({
         state.userData = payload.user;
         state.token = payload.token;
       }) //================ Refresh User ==============
-      .addCase(authRefreshUser.fulfilled, (state, { payload }) => {
+      .addCase(authRefreshUser.fulfilled, (state, action) => {
         state.isRefreshing = false;
         state.isLoading = false;
         state.error = null;
         state.isLoggedIn = true;
-        console.log(payload);
-        state.userData = payload;
+        console.log(action);
+        state.userData = action.payload;
       }) //================ LogIn ==============
       .addCase(authLogOutUser.fulfilled, state => {
         state.isRefreshing = false;
@@ -113,6 +114,7 @@ const authSlice = createSlice({
           authRefreshUser.pending
         ),
         state => {
+          console.log('panding');
           state.isRefreshing = true;
           state.error = null;
           state.isLoading = true;
@@ -125,6 +127,7 @@ const authSlice = createSlice({
           authRefreshUser.rejected
         ),
         (state, { payload }) => {
+          console.log('rejected');
           state.isRefreshing = false;
           state.error = payload;
           state.isLoading = false;
