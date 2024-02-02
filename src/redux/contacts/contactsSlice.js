@@ -13,7 +13,6 @@ const initialContacts = {
   contacts: [],
   status: statusState.idle, // "idle" | "pending" | "success" | "error"
   error: null,
-  location: null,
 };
 
 const contactsSlice = createSlice({

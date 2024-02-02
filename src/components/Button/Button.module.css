@@ -6,7 +6,11 @@
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   transition: all 550ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.button:hover {
+.button:enabled:hover {
   background-color: rgb(36, 35, 35);
   color: rgb(255, 255, 255);
+}
+.button:disabled {
+  cursor: not-allowed;
+  color: rgb(196, 192, 192);
 }

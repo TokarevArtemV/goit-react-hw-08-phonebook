@@ -1,7 +1,10 @@
 import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { NotificationContainer } from 'react-notifications';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
 import { Button, Loader } from 'components';
 
 import css from 'components/Layout/Layout.module.css';
@@ -17,7 +20,13 @@ export const Layout = () => {
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
-    dispatch(authLogOutUser());
+    dispatch(authLogOutUser())
+      .unwrap()
+      .catch(() =>
+        NotificationManager.error(
+          `Something went wrong, please reload page and login again`
+        )
+      );
   };
 
   return (
@@ -58,7 +67,7 @@ export const Layout = () => {
       </header>
 
       <Suspense fallback={<Loader />}>
-        <main>
+        <main style={{ height: '100%' }}>
           <Outlet />
         </main>
       </Suspense>

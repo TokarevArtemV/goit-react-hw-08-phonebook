@@ -2,8 +2,10 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NotificationManager } from 'react-notifications';
 import { apiGetContacts, apiPostContact, selectContacts } from '../../redux';
-import css from 'components/ContactForm/ContactForm.module.css';
+import { Formik } from 'formik';
 import { Button } from 'components';
+import * as Yup from 'yup';
+import css from 'components/ContactForm/ContactForm.module.css';
 
 function isExists(name, contacts) {
   return contacts.some(
@@ -20,53 +22,85 @@ export const ContactForm = () => {
     dispatch(apiGetContacts());
   }, [dispatch]);
 
-  const onSubmitForm = evt => {
-    evt.preventDefault();
-    const objUserData = Object.fromEntries(new FormData(inputForm.current));
-
-    if (isExists(objUserData.name, contacts)) {
-      NotificationManager.info(`${objUserData.name} is alredy in contacts`);
+  const handleSubmit = (value, action) => {
+    if (isExists(value.name, contacts)) {
+      NotificationManager.info(`${value.name} is alredy in contacts`);
       return;
     }
 
-    dispatch(apiPostContact(objUserData))
+    dispatch(apiPostContact(value))
       .unwrap()
       .then(data =>
         NotificationManager.success(`${data.name} was successfully added`)
       );
 
-    evt.target.reset();
+    action.resetForm();
   };
 
   return (
-    <form ref={inputForm} className={css.form} onSubmit={onSubmitForm}>
-      <label className={css.form_label}>
-        <span className={css.text}>Name</span>
-        <input
-          className={css.form_input}
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-      </label>
-      <label className={css.form_label}>
-        <span className={css.text}>Telefone</span>
-        <input
-          className={css.form_input}
-          type="tel"
-          name="number"
-          pattern="\d{3}[\-]\d{3}[\-]\d{4}"
-          title="Number may contain only numbers and dushes. For example 050-111-2233"
-          required
-        />
-      </label>
+    <Formik
+      initialValues={{
+        name: '',
+        number: '',
+      }}
+      onSubmit={handleSubmit}
+      validationSchema={Yup.object().shape({
+        name: Yup.string()
+          .required('Name is required')
+          .min(3, 'Name is too short - should be 3 chars minimum'),
+        number: Yup.string()
+          .required('Number is required')
+          .min(1, 'Number is too short - should be 1 chars minimum'),
+      })}
+    >
+      {formik => {
+        const {
+          values,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          isValid,
+          dirty,
+        } = formik;
+        return (
+          <form ref={inputForm} className={css.form} onSubmit={handleSubmit}>
+            <label className={css.form_label}>
+              <span className={css.text}>Name</span>
+              <input
+                className={css.form_input}
+                id="name"
+                type="text"
+                name="name"
+                placeholder="name"
+                autoComplete="off"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                title="Name should be 3 chars minimum"
+              />
+            </label>
+            <label className={css.form_label}>
+              <span className={css.text}>Telefone</span>
+              <input
+                className={css.form_input}
+                id="number"
+                type="tel"
+                name="number"
+                placeholder="number"
+                autoComplete="off"
+                value={values.number}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                title="Number may contain only numbers and dushes. For example 050-111-2233"
+              />
+            </label>
 
-      <Button type="submit">Add contact</Button>
-      {/* <button className={css.button} type="submit">
-        Add contact
-      </button> */}
-    </form>
+            <Button type="submit" isDisabled={!(dirty && isValid)}>
+              Add contact
+            </Button>
+          </form>
+        );
+      }}
+    </Formik>
   );
 };

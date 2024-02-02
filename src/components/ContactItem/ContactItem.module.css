@@ -10,6 +10,11 @@
   font-size: 8px;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  transition: all 250ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.button:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.3),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.3), 0px 1px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .item {
   display: flex;
@@ -20,9 +25,13 @@
   height: 50px;
   list-style-type: none;
   padding: 5px;
-
+  transition: all 250ms cubic-bezier(0.215, 0.61, 0.355, 1);
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+.item:hover {
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.18),
+    0px 6px 7px 0px rgba(0, 0, 0, 0.18), 0px 3px 12px 0px rgba(0, 0, 0, 0.18);
 }
 .item a {
   display: contents;
